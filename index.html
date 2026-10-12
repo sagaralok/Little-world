@@ -1,194 +1,387 @@
 <!doctype html>
+
 <html lang="en">
+
 <head>
+
   <meta charset="utf-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
   <meta name="theme-color" content="#17121d" />
+
   <meta name="description" content="A little world made just for us." />
+
   <title>Our Little World ♡</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+
+  <link rel="preconnect" href="https\://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https\://fonts.gstatic.com" crossorigin>
+
+  <link href="https\://fonts.googleapis.com/css2?family=DM+Sans:wght\@400;500;600&family=Playfair+Display:ital,wght\@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+
   <style>
+
     :root { --cream:#fff4ed; --rose:#f1b8c4; --pink:#f7d5db; --muted:#c9b8c6; --glass:rgba(255,255,255,.075); }
+
     * { box-sizing:border-box; }
+
     html { min-height:100%; background:#17121d; }
+
     body { margin:0; min-height:100svh; color:var(--cream); font-family:"DM Sans",sans-serif; background:
+
       radial-gradient(ellipse at 15% 10%, rgba(112,75,121,.33), transparent 42%),
+
       radial-gradient(ellipse at 90% 75%, rgba(140,70,93,.22), transparent 42%),
+
       linear-gradient(145deg,#17121d,#251725 58%,#17121d); overflow-x:hidden; }
+
     .stars, .hearts { position:fixed; inset:0; pointer-events:none; overflow:hidden; }
+
     .star { position:absolute; width:2px; height:2px; background:#fff4ed; border-radius:50%; opacity:.5; animation:twinkle 3.5s ease-in-out infinite; }
+
     @keyframes twinkle { 0%,100%{opacity:.2;transform:scale(.8)} 50%{opacity:.9;transform:scale(1.4)} }
+
     .wrap { position:relative; z-index:1; width:min(100%,520px); min-height:100svh; margin:auto; padding:30px 20px calc(28px + env(safe-area-inset-bottom)); display:flex; flex-direction:column; justify-content:center; }
+
     .brand { text-align:center; margin-bottom:24px; }
+
     .eyebrow { font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:#d9b9c8; }
+
     h1 { font:500 clamp(35px,10vw,48px)/1.1 "Playfair Display",serif; margin:13px 0 10px; letter-spacing:-.035em; }
+
     h1 em { color:var(--rose); font-weight:500; }
+
     .sub { color:var(--muted); font-size:13px; line-height:1.7; margin:0 auto; max-width:300px; }
+
     .card { border:1px solid rgba(255,231,239,.16); background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.035)); border-radius:25px; padding:25px 21px; box-shadow:0 25px 70px rgba(0,0,0,.22); backdrop-filter:blur(14px); }
+
     label { display:block; color:#ead4dd; font-size:12px; margin:0 0 8px 2px; }
+
     .field { margin-bottom:17px; }
+
     input { display:block; width:100%; min-height:51px; border-radius:13px; border:1px solid rgba(255,236,242,.17); background:rgba(16,11,20,.35); padding:0 15px; color:#fff7f4; font:500 15px "DM Sans",sans-serif; outline:none; transition:border .2s, box-shadow .2s; }
+
     input::placeholder { color:#998a9c; }
+
     input:focus { border-color:#e9aab9; box-shadow:0 0 0 3px rgba(233,170,185,.12); }
+
     button { border:0; width:100%; min-height:52px; border-radius:14px; background:linear-gradient(110deg,#f2c2cc,#e9a8bb); color:#321c2a; font:600 14px "DM Sans",sans-serif; letter-spacing:.02em; cursor:pointer; box-shadow:0 9px 24px rgba(221,133,158,.18); transition:transform .18s,filter .18s; }
+
     button:active { transform:scale(.985); }
+
     .error { color:#ffc3ce; min-height:18px; text-align:center; font-size:12px; margin:11px 0 0; }
+
     .tiny { text-align:center; color:#8f7f91; font-size:10px; letter-spacing:.08em; margin-top:19px; }
+
     .hidden { display:none !important; }
+
     .letter-top { text-align:center; margin-bottom:17px; }
+
     .seal { width:50px; height:50px; margin:0 auto 12px; display:grid; place-items:center; border-radius:50%; background:rgba(241,184,196,.13); border:1px solid rgba(241,184,196,.32); font-size:22px; }
+
     .letter-top h2 { font:500 30px/1.2 "Playfair Display",serif; margin:0 0 7px; }
+
     .letter-top p { color:var(--muted); font-size:12px; margin:0; }
+
     .photo-frame { padding:8px; border-radius:19px; border:1px solid rgba(255,231,239,.18); background:rgba(255,255,255,.055); }
+
     .photo-frame img { display:block; width:100%; max-height:440px; object-fit:cover; object-position:center 40%; border-radius:13px; }
+
     .caption { text-align:center; font:italic 17px/1.5 "Playfair Display",serif; color:#f3c7d1; margin:16px 8px 20px; }
+
     .divider { height:1px; background:linear-gradient(90deg,transparent,rgba(255,225,234,.25),transparent); margin:20px 0; }
+
     .timer-heading { text-align:center; font-size:10px; text-transform:uppercase; letter-spacing:.22em; color:#d5b9c8; margin-bottom:14px; }
+
     .timer { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+
     .timebox { text-align:center; border:1px solid rgba(255,229,236,.12); background:rgba(10,7,13,.22); border-radius:13px; padding:13px 2px 11px; }
+
     .num { font:500 clamp(23px,7vw,31px)/1 "Playfair Display",serif; color:#fff2f0; }
+
     .unit { color:#c9aebd; text-transform:uppercase; letter-spacing:.12em; font-size:9px; margin-top:7px; }
+
     .promise { text-align:center; font:italic 16px/1.55 "Playfair Display",serif; color:#eacbd4; margin:19px 7px 2px; }
+
     .signature { text-align:center; color:#aa92a5; font-size:11px; margin-top:16px; }
+
     .back { margin-top:18px; min-height:42px; background:transparent; color:#c8aebc; border:1px solid rgba(255,231,239,.15); box-shadow:none; font-size:12px; }
+
     .float-heart { position:absolute; bottom:-30px; color:#f3b9c8; opacity:0; animation:rise 8s linear forwards; }
+
     @keyframes rise { 0%{transform:translateY(0) rotate(0);opacity:0} 12%{opacity:.45} 85%{opacity:.3} 100%{transform:translateY(-110svh) rotate(35deg);opacity:0} }
+
     .footer { text-align:center; color:#7f7084; font-size:10px; margin-top:24px; letter-spacing:.04em; }
+
     @media (min-width:480px) { .wrap{padding-top:40px;padding-bottom:40px} .card{padding:28px} }
+
     @media (prefers-reduced-motion: reduce) { *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important} }
+
   </style>
+
 </head>
+
 <body>
+
   <div class="stars" id="stars" aria-hidden="true"></div>
+
   <div class="hearts" id="hearts" aria-hidden="true"></div>
+
   <main class="wrap">
+
     <section id="loginView">
+
       <header class="brand">
-        <div class="eyebrow">A little universe, just for us</div>
+
+        
+
         <h1>Our Little <em>World</em></h1>
-        <p class="sub">Some things are meant for two hearts only.<br>Come in, my love. ♡</p>
+
+        <p class="sub" dir="rtl" lang="fa">تمام دنیای من در قلب تو خلاصه می‌شود ❤️</p>
+
       </header>
+
       <div class="card">
+
         <form id="loginForm" autocomplete="off">
+
           <div class="field">
-            <label for="yourName">Your name</label>
+
+            <label for="yourName">What’s your name, aşkım? ❤️</label>
+
             <input id="yourName" name="yourName" placeholder="The name you go by…" required />
+
           </div>
+
           <div class="field">
-            <label for="soulmateName">Your soulmate's name</label>
+
+            <label for="soulmateName">What’s your soulmate’s name?</label>
+
             <input id="soulmateName" name="soulmateName" placeholder="The one your heart chooses…" required />
+
           </div>
-          <button type="submit">Open our little world <span aria-hidden="true">♡</span></button>
+
+          <button type="submit">Open It ❤️</button>
+
           <p class="error" id="error" role="status"></p>
+
         </form>
+
       </div>
-      <div class="tiny">MADE WITH LOVE · ONLY FOR YOU TWO</div>
+
+      
+
     </section>
+
+
 
     <section id="loveView" class="hidden" aria-live="polite">
+
       <header class="letter-top">
+
         <div class="seal">♡</div>
-        <h2>For you, Asal</h2>
+
+        <h2>Meri jaan ❤️</h2>
+
         <p>A little piece of my heart, wherever you are.</p>
+
       </header>
+
       <div class="card">
+
         <div class="photo-frame"><img src="./our-photo.png" alt="A loving moment together" /></div>
+
         <p class="caption">If I could choose a place to be,<br>I'd choose right beside you. ♡</p>
+
         <div class="divider"></div>
-        <div class="timer-heading">Until I get to hold you again</div>
+
+        <div class="timer-heading">Until I hold you like this ❤️</div>
+
         <div class="timer" aria-label="Countdown until we meet">
+
           <div class="timebox"><div class="num" id="days">--</div><div class="unit">Days</div></div>
+
           <div class="timebox"><div class="num" id="hours">--</div><div class="unit">Hours</div></div>
+
           <div class="timebox"><div class="num" id="minutes">--</div><div class="unit">Minutes</div></div>
+
           <div class="timebox"><div class="num" id="seconds">--</div><div class="unit">Seconds</div></div>
+
         </div>
+
         <p class="promise">Every second brings me a little closer to you.</p>
-        <div class="signature">Always, Alok <span aria-hidden="true">♥</span></div>
+
+        <div class="signature">Always by your side (: <span aria-hidden="true">♥</span></div>
+
       </div>
+
       <button class="back" id="backButton" type="button">Back to our little door</button>
+
     </section>
-    <footer class="footer">somewhere under the same sky ✦</footer>
+
+    
+
   </main>
+
 <script>
+
   // The names are accepted in either order, case-insensitively.
+
   const normalize = value => value.trim().toLocaleLowerCase().replace(/\s+/g, " ");
+
   const validPair = (a, b) =>
+
     (normalize(a) === "asal" && normalize(b) === "alok") ||
+
     (normalize(a) === "alok" && normalize(b) === "asal");
 
+
+
   const loginView = document.getElementById("loginView");
+
   const loveView = document.getElementById("loveView");
+
   const form = document.getElementById("loginForm");
+
   const error = document.getElementById("error");
 
+
+
   form.addEventListener("submit", event => {
+
     event.preventDefault();
+
     const a = document.getElementById("yourName").value;
+
     const b = document.getElementById("soulmateName").value;
+
     if (!validPair(a, b)) {
+
       error.textContent = "Hmm, our little world opens with the two right names. ♡";
+
       return;
+
     }
+
     error.textContent = "";
+
     loginView.classList.add("hidden");
+
     loveView.classList.remove("hidden");
+
     window.scrollTo({ top: 0, behavior: "smooth" });
+
     startHearts();
+
   });
+
+
 
   document.getElementById("backButton").addEventListener("click", () => {
+
     loveView.classList.add("hidden");
+
     loginView.classList.remove("hidden");
+
     document.getElementById("yourName").focus();
+
     window.scrollTo({ top: 0, behavior: "smooth" });
+
   });
 
+
+
   // Countdown target: December 2, 2026. The date itself is never shown on the page.
+
   // Uses the visitor's device local time. Adjust the time below if your plans change.
+
   const target = new Date(2026, 11, 2, 12, 0, 0).getTime();
+
   const pad = n => String(n).padStart(2, "0");
+
   function updateTimer() {
+
     let diff = Math.max(0, target - Date.now());
+
     const days = Math.floor(diff / 86400000); diff %= 86400000;
+
     const hours = Math.floor(diff / 3600000); diff %= 3600000;
+
     const minutes = Math.floor(diff / 60000); diff %= 60000;
+
     const seconds = Math.floor(diff / 1000);
+
     document.getElementById("days").textContent = days;
+
     document.getElementById("hours").textContent = pad(hours);
+
     document.getElementById("minutes").textContent = pad(minutes);
+
     document.getElementById("seconds").textContent = pad(seconds);
+
   }
+
   updateTimer();
+
   setInterval(updateTimer, 1000);
 
+
+
   // Gentle star field and floating hearts; no external animation library required.
+
   const stars = document.getElementById("stars");
+
   for (let i = 0; i < 65; i++) {
+
     const s = document.createElement("i");
+
     s.className = "star";
+
     s.style.left = Math.random() * 100 + "%";
+
     s.style.top = Math.random() * 100 + "%";
+
     s.style.animationDelay = (Math.random() * 4) + "s";
+
     s.style.opacity = (Math.random() * .55 + .15);
+
     stars.appendChild(s);
+
   }
+
   function startHearts() {
+
     const container = document.getElementById("hearts");
+
     for (let i = 0; i < 7; i++) {
+
       setTimeout(() => {
+
         const h = document.createElement("span");
+
         h.className = "float-heart";
+
         h.textContent = ["♡", "♥", "✧"][Math.floor(Math.random() * 3)];
+
         h.style.left = (5 + Math.random() * 90) + "%";
+
         h.style.fontSize = (13 + Math.random() * 17) + "px";
+
         h.style.animationDuration = (6 + Math.random() * 4) + "s";
+
         container.appendChild(h);
+
         setTimeout(() => h.remove(), 10500);
+
       }, i * 430);
+
     }
+
   }
+
 </script>
+
 </body>
+
 </html>
