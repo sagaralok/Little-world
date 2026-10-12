@@ -107,6 +107,17 @@
     .signature { text-align:center; color:#aa92a5; font-size:11px; margin-top:16px; }
 
     .back { margin-top:18px; min-height:42px; background:transparent; color:#c8aebc; border:1px solid rgba(255,231,239,.15); box-shadow:none; font-size:12px; }
+   .game-button { margin-top:16px; }
+   .game-card { text-align:center; }
+   .game-title { font:500 clamp(27px,8vw,35px)/1.2 "Playfair Display",serif; margin:0 0 10px; }
+   .game-copy { color:var(--muted); font-size:13px; line-height:1.7; margin:0 0 18px; }
+   .game-actions { position:relative; display:block; height:300px; min-height:300px; padding:0; overflow:hidden; border-radius:14px; touch-action:pan-y; }
+   .yes-button { position:absolute; z-index:1; left:50%; top:10px; transform:translateX(-50%); width:auto; min-width:190px; padding:0 20px; height:52px; }
+   .no-button { position:absolute; left:calc(50% - 33px); top:100px; width:66px; min-width:66px; height:66px; min-height:66px; border-radius:50%; padding:0; z-index:2; transition:left .12s ease-out, top .12s ease-out; pointer-events:none; user-select:none; -webkit-user-select:none; }
+   .game-surprise { text-align:center; padding:12px 0 4px; }
+   .game-surprise img { display:block; width:min(100%,260px); max-height:230px; object-fit:contain; margin:0 auto 10px; border-radius:14px; }
+   .game-surprise h3 { font:500 28px/1.25 "Playfair Display",serif; color:var(--rose); margin:8px 0 12px; }
+
 
     .float-heart { position:absolute; bottom:-30px; color:#f3b9c8; opacity:0; animation:rise 8s linear forwards; }
 
@@ -220,6 +231,24 @@
 
     </section>
 
+    <section id="gameView" class="hidden" aria-live="polite">
+      <div class="card game-card">
+        <div id="gameQuestion">
+          <div class="seal">♡</div>
+          <h2 class="game-title">Do you love me? ❤️</h2>
+          <div class="game-actions" id="gameActions">
+            <button type="button" class="yes-button" id="yesButton">Yes, of course ❤️</button>
+            <button type="button" class="no-button" id="noButton" aria-disabled="true" tabindex="-1">No 🙈</button>
+          </div>
+        </div>
+        <div class="game-surprise hidden" id="gameSurprise">
+          <img src="./asal-love.gif?v=2" alt="A cute animated moment" />
+          <h3>I knew it hehe.</h3>
+        </div>
+      </div>
+      <button class="back" id="backToLoveButton" type="button">Open our little world ❤️</button>
+    </section>
+
     
 
   </main>
@@ -267,8 +296,13 @@
     error.textContent = "";
 
     loginView.classList.add("hidden");
-
-    loveView.classList.remove("hidden");
+    loveView.classList.add("hidden");
+    gameView.classList.remove("hidden");
+    gameSurprise.classList.add("hidden");
+    yesButton.classList.remove("hidden");
+    noButton.classList.remove("hidden");
+    noButton.style.left = "calc(50% - 33px)";
+    noButton.style.top = "95px";
 
     window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -290,6 +324,77 @@
 
   });
 
+  // Game screen appears immediately after a successful login.
+  const gameView = document.getElementById("gameView");
+  const backToLoveButton = document.getElementById("backToLoveButton");
+  const noButton = document.getElementById("noButton");
+  const gameActions = document.getElementById("gameActions");
+  const yesButton = document.getElementById("yesButton");
+  const gameQuestion = document.getElementById("gameQuestion");
+  const gameSurprise = document.getElementById("gameSurprise");
+
+  backToLoveButton.addEventListener("click", () => {
+    gameView.classList.add("hidden");
+    loveView.classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  function dodgeNoButton() {
+    const area = gameActions.getBoundingClientRect();
+    const buttonWidth = noButton.offsetWidth;
+    const buttonHeight = noButton.offsetHeight;
+    const pad = 8;
+    const maxX = Math.max(pad, area.width - buttonWidth - pad);
+    const maxY = Math.max(pad, area.height - buttonHeight - pad);
+    const yesRect = yesButton.getBoundingClientRect();
+    let x = pad, y = pad;
+
+    // Move a good distance, avoiding the Yes button and the spot she just tried.
+    const oldRect = noButton.getBoundingClientRect();
+    const oldX = oldRect.left + oldRect.width / 2;
+    const oldY = oldRect.top + oldRect.height / 2;
+    for (let i = 0; i < 60; i++) {
+      x = pad + Math.random() * (maxX - pad);
+      y = pad + Math.random() * (maxY - pad);
+      const left = area.left + x, top = area.top + y;
+      const overlapsYes = left < yesRect.right + 16 &&
+        left + buttonWidth > yesRect.left - 16 &&
+        top < yesRect.bottom + 16 &&
+        top + buttonHeight > yesRect.top - 16;
+      const farEnough = Math.hypot(left + buttonWidth/2 - oldX, top + buttonHeight/2 - oldY) > 100;
+      if (!overlapsYes && farEnough) break;
+    }
+    noButton.style.left = x + "px";
+    noButton.style.top = y + "px";
+  }
+
+  // The No button is intentionally not clickable. It moves away before she can reach it.
+  let lastDodge = 0;
+  function dodgeWhenNear(event) {
+    const now = Date.now();
+    if (now - lastDodge < 130) return;
+    const rect = noButton.getBoundingClientRect();
+    const distance = Math.hypot(event.clientX - (rect.left + rect.width / 2), event.clientY - (rect.top + rect.height / 2));
+    if (distance < 125) {
+      lastDodge = now;
+      dodgeNoButton();
+    }
+  }
+  gameActions.addEventListener("pointermove", dodgeWhenNear);
+  gameActions.addEventListener("pointerdown", event => {
+    dodgeWhenNear(event);
+    if (event.target === noButton) event.preventDefault();
+  });
+  gameActions.addEventListener("touchstart", event => {
+    const t = event.touches[0];
+    if (t) dodgeWhenNear({ clientX: t.clientX, clientY: t.clientY });
+  }, { passive: true });
+
+  yesButton.addEventListener("click", () => {
+    gameQuestion.classList.add("hidden");
+    gameSurprise.classList.remove("hidden");
+    startHearts();
+  });
 
 
   // Countdown target: December 2, 2026. The date itself is never shown on the page.
